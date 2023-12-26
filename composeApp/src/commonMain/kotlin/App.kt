@@ -1,3 +1,7 @@
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.hoverable
@@ -139,29 +143,46 @@ fun Link(
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered = interactionSource.collectIsHoveredAsState()
     
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
+    val padding = animateDpAsState(
+        targetValue = if(isHovered.value) 6.dp else 8.dp,
+        animationSpec = if (isHovered.value) keyframes {
+            durationMillis = 200
+            8.dp at 0
+            4.dp at 100
+            6.dp at 200
+        } else spring()
+    )
+
+    Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(60.dp)
-            .clip(RoundedCornerShape(30.dp))
-            .background(if (isHovered.value) Color.DarkGray else AndroidColors.background)
-            .hoverable(interactionSource)
-            .padding(8.dp)
+            .height(76.dp),
+        contentAlignment = Alignment.Center,
     ) {
-        icon?.let {
-            Image(
-                painter = painterResource(icon),
-                contentDescription = null,
-                modifier = Modifier.size(42.dp).clip(CircleShape)
-            )
-        }
-        Text(title, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))  
-        if (chevronVisibility) {
-            Icon(Icons.Default.Check, contentDescription = null)  
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding.value)
+                .clip(RoundedCornerShape(30.dp))
+                .background(AndroidColors.background)
+                .hoverable(interactionSource)
+        ) {
+            icon?.let {
+                Image(
+                    painter = painterResource(icon),
+                    contentDescription = null,
+                    modifier = Modifier.size(42.dp).clip(CircleShape)
+                )
+            }
+            Text(title, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+            if (chevronVisibility) {
+                Icon(Icons.Default.Check, contentDescription = null)
+            }
         }
     }
+
 }
 val AndroidColors = lightColors(
     surface = Color(0xFFF4FDF4),
