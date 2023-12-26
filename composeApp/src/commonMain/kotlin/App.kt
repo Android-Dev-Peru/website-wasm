@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -54,6 +55,22 @@ val elements: List<Element> = listOf(
     Element.Link(title = "Checa todo nuestro contenido posteado", icon = "", url = "https://dev.to/androiddevperu"),
 )
 
+data class Social(
+    val icon: String,
+    val url: String,
+)
+
+val socials = listOf<Social>(
+    Social("icon_youtube.xml", "https://www.youtube.com/@AndroidDevPeru"),
+    Social("icon_x.xml", "https://twitter.com/androiddevperu"),
+    Social("icon_ig.xml", "https://instagram.com/androiddevperu"),
+    Social("icon_linkedin.xml", "https://www.linkedin.com/company/android-dev-peru"),
+    Social("icon_github.xml", "https://github.com/Android-Dev-Peru"),
+    Social("icon_tiktok.xml", "https://tiktok.com/androiddevperu"),
+    Social("icon_web.xml", "https://tiktok.com/androiddevperu"),
+    Social("icon_email.xml", "mailto:adevpe14@gmail.com"),
+)
+
 @Composable
 fun App() {
     AndroidTheme {
@@ -78,7 +95,7 @@ fun MainContent(modifier: Modifier = Modifier) {
             Header()
         }
         item(key = "socials") {
-            Socials()
+            Socials(socials)
         }
         elements.forEach {
             when(it) {
@@ -127,9 +144,29 @@ fun Header() {
     Text(text = "Comunidad de Android en Perú", Modifier.padding(12.dp))
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
-fun Socials() {
-    
+fun Socials(socials: List<Social>) {
+    Spacer(Modifier.height(16.dp))
+    Row {
+        socials.forEach {
+            Box(Modifier.size(44.dp), contentAlignment = Alignment.TopCenter) {
+                val interactionSource = remember { MutableInteractionSource() }
+                val isHovered = interactionSource.collectIsHoveredAsState()
+
+                val size = animateDpAsState(
+                    targetValue = if(isHovered.value) 30.dp else 28.dp
+                )
+
+                Image(
+                    painter = painterResource(it.icon),
+                    contentDescription = null,
+                    modifier = Modifier.size(size.value).hoverable(interactionSource),
+                    contentScale = ContentScale.Inside,
+                )
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalResourceApi::class)
