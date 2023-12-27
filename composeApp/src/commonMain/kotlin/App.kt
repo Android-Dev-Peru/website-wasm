@@ -207,6 +207,7 @@ fun Link(
                 .hoverable(interactionSource)
         ) {
             icon?.let {
+                Spacer(Modifier.width(8.dp))
                 Image(
                     painter = painterResource(icon),
                     contentDescription = null,
