@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.Typography
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
@@ -20,9 +21,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
@@ -136,10 +140,14 @@ fun Header() {
     )
     Text(
         text = "Android Dev Perú",
-        fontWeight = FontWeight.ExtraBold,
+        style = MaterialTheme.typography.h1,
         modifier = Modifier.padding(top = 16.dp)
     )
-    Text(text = "Comunidad de Android en Perú", Modifier.padding(12.dp))
+    Text(
+        text = "Comunidad de Android en Perú",
+        style = MaterialTheme.typography.h2,
+        modifier = Modifier.padding(12.dp),
+    )
 }
 
 @OptIn(ExperimentalResourceApi::class, ExperimentalLayoutApi::class)
@@ -213,7 +221,12 @@ fun Link(
                     modifier = Modifier.size(42.dp).clip(CircleShape)
                 )
             }
-            Text(title, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+            Text(
+                text = title,
+                style = MaterialTheme.typography.h2,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.weight(1f)
+            )
             if (chevronVisibility) {
                 Icon(Icons.Default.Check, contentDescription = null)
             }
@@ -226,7 +239,24 @@ val AndroidColors = lightColors(
     background = Color(0xFFA6EB99)
 )
 
+var DMSans: FontFamily? = null
+
+val AndroidTypography by lazy {
+    Typography(
+        h1 = TextStyle(
+            fontFamily = DMSans,
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 18.sp,
+        ),
+        h2 = TextStyle(
+            fontFamily = DMSans,
+            fontWeight = FontWeight.Normal,
+            fontSize = 16.sp,
+        ),
+    )
+}
+
 @Composable
 fun AndroidTheme(content: @Composable () -> Unit) {
-    MaterialTheme(colors = AndroidColors, content = content)
+    MaterialTheme(colors = AndroidColors, typography = AndroidTypography, content = content)
 }
