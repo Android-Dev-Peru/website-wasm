@@ -142,13 +142,13 @@ fun Header() {
     Text(text = "Comunidad de Android en Perú", Modifier.padding(12.dp))
 }
 
-@OptIn(ExperimentalResourceApi::class)
+@OptIn(ExperimentalResourceApi::class, ExperimentalLayoutApi::class)
 @Composable
 fun Socials(socials: List<Social>) {
     Spacer(Modifier.height(16.dp))
-    Row {
+    FlowRow(horizontalArrangement = Arrangement.Center) {
         socials.forEach {
-            Box(Modifier.size(44.dp), contentAlignment = Alignment.TopCenter) {
+            Box(Modifier.size(56.dp), contentAlignment = Alignment.TopCenter) {
                 val interactionSource = remember { MutableInteractionSource() }
                 val isHovered = interactionSource.collectIsHoveredAsState()
 
@@ -164,6 +164,7 @@ fun Socials(socials: List<Social>) {
                 )
             }
         }
+
     }
 }
 
