@@ -6,6 +6,7 @@ import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.window.CanvasBasedWindow
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.resource
+import ui.DMSans
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
